@@ -1,0 +1,29 @@
+configuration {
+	modi: 		"drun";
+	fullscreen: 	true;
+	show-icons: 	true;
+	hide-scrollbar: true;
+}
+
+@theme "common"
+
+listview {
+	columns: 	8;
+	lines: 		6;
+	dynamic: 	false;
+	fixed-columns: 	false;
+}
+
+element-icon {
+	size: 3.5em;
+}
+
+element-text {
+	horizontal-align: 0.5;
+	vertical-align: 0.5;
+}
+
+element {
+	padding: 0.5em;
+	orientation: vertical;
+}

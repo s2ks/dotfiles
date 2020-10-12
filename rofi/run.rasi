@@ -1,0 +1,13 @@
+configuration {
+	modi: 		"run";
+	fullscreen: 	true;
+	show-icons: 	false;
+}
+
+@theme "common"
+
+listview {
+	columns: 	8;
+	dynamic: 	true;
+	fixed-columns: 	false;
+}
