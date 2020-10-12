@@ -1,0 +1,32 @@
+configuration {
+	fullscreen: true;
+	show-icons: true;
+}
+
+@theme "common"
+
+window {
+	padding: 	calc(50% - 4em) calc(50% - 20em);
+}
+
+mainbox {
+	children: [listview];
+}
+
+listview {
+	columns: 6;
+	fixed-columns: true;
+}
+
+element {
+	orientation: vertical;
+}
+
+element-text {
+	horizontal-align: 	0.5;
+	vertical-align: 	0.5;
+}
+
+element-icon {
+	size: 3.5em;
+}
