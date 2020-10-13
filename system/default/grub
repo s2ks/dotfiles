@@ -47,8 +47,6 @@ GRUB_GFXPAYLOAD_LINUX=keep
 #GRUB_BACKGROUND="/path/to/wallpaper"
 #GRUB_THEME="/path/to/gfxtheme"
 
-GRUB_BACKGROUND="/usr/share/backgrounds/user/SpBfUZi.jpeg"
-
 # Uncomment to get a beep at GRUB start
 #GRUB_INIT_TUNE="480 440 1"
 
