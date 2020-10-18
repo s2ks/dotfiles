@@ -1,13 +1,46 @@
+# include system-wide bindings and variables
+#$include /etc/inputrc
+
+# list possible completions instead of ringing the bell
 set show-all-if-unmodified on
 set show-all-if-ambiguous on
 
-set editing-mode vi
+set editing-mode emacs
 
-set colored-stats on
 set visible-stats on
 set mark-symlinked-directories on
+
+# match files staring with a '.'
+set match-hidden-files on
+
+# colour the common prefix when listing possible completions
 set colored-completion-prefix on
+
+# colour completions based on filetype according to $LS_COLORS
+set colored-stats on
 set menu-complete-display-prefix on
 
+# case insensitive filename matching
 set completion-ignore-case on
+
+# treat '-' and '_' as equal when case-insensitively matching filenames
+set completion-map-case on
+
+# don't allow readline to ring the terminal bell
 set bell-style none
+
+# prevent pasted characters from being interpreted as editing commands
+# e.g. \n as enter
+set enable-bracketed-paste on
+
+# st-specific key binds
+$if term=st
+
+"\e[1;5D": 	beginning-of-line
+"\e[1;5C": 	end-of-line
+"\e[D": 	backward-char
+"\e[C": 	forward-char
+"\e[1;2D": 	backward-word
+"\e[1;2C": 	forward-word
+
+$endif
