@@ -5,7 +5,7 @@
 set show-all-if-unmodified on
 set show-all-if-ambiguous on
 
-set editing-mode emacs
+set editing-mode vi
 
 set visible-stats on
 set mark-symlinked-directories on
