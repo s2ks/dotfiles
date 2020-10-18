@@ -1,7 +1,7 @@
 " install vim-plug (https://github.com/junegunn/vim-plug):
 "
 "   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-"   	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 call plug#begin('~/.vim/plugged')
 
@@ -49,7 +49,7 @@ set wildmenu
 
 set showcmd
 
-" hightlight searches, disable with :noh
+" hightlight searches, disable temporarily with :noh
 set hlsearch
 
 " ignore case when searching
@@ -101,8 +101,21 @@ set tabstop=8
 
 set encoding=utf-8
 
+" use system clipboard by default
 set clipboard=unnamedplus
 
-" set colorscheme (256)
 set background=dark
 colorscheme PaperColor
+
+
+" st keybinds
+if &term =~ "st"
+	noremap <ESC>[1;2B 	<C-F>
+	noremap <ESC>[1;2A 	<C-B>
+	noremap <ESC>[1;2C 	w
+	noremap <ESC>[1;2D 	b
+	noremap [1;5C 	$
+	noremap [1;5D 	0
+	noremap [1;5A 	<nop>
+	noremap [1;5B 	<nop>
+endif
