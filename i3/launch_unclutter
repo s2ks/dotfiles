@@ -1,0 +1,13 @@
+#!/bin/bash
+
+$PROC=unclutter
+
+pkill $PROC
+
+while pgrep -x $PROC > /dev/null; do sleep 1; done
+
+unclutter \
+	--timeout 5 		\
+	--exclude-root 		\
+	--ignore-scrolling 	\
+	--fork
