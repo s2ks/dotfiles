@@ -5,21 +5,26 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# powerline stuff
-powerline-daemon -q
-POWERLINE_BASH_CONTINUATION=1
-POWERLINE_BASH_SELECT=1
+export XDG_CONFIG_HOME=$HOME/.config
 
-. /usr/share/powerline/bindings/bash/powerline.sh
+# tmux on shell login
+#[[ -z "$TMUX" ]] && exec tmux
 
-# alias for coloured output
+# transparency
+#[ -n "$XTERM_VERSION" ] && transset-df --id "$WINDOWID" > /dev/null
+
+#powerline-daemon -q
+#POWERLINE_BASH_CONTINUATION=1
+#POWERLINE_BASH_SELECT=1
+
+#. /usr/share/powerline/bindings/bash/powerline.sh
+
 alias ls='ls --color=always'
 alias la='ls -la'
 alias grep='grep --color=always'
 alias pacman='pacman --color=always'
 alias diff='diff --color=always'
 
-# interactive mode on mv, rm and cp
 alias mv='mv -i'
 alias rm='rm -I'
 alias cp='cp -i'
@@ -52,15 +57,17 @@ export PAGER=less
 # default editor
 export EDITOR=vim
 
+# Custom bash prompt
+source $HOME/.config/bash/prompt.sh
+
 # Bash autocompletion extension
 source /usr/share/bash-completion/bash_completion
 
 # command not found, file lookup
 source /usr/share/doc/pkgfile/command-not-found.bash
 
-# perl env
-PATH="~/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="~/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="~/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"~/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=~/perl5"; export PERL_MM_OPT;
+PATH="/home/jilles/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/jilles/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/jilles/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/jilles/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/jilles/perl5"; export PERL_MM_OPT;
