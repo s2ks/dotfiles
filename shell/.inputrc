@@ -33,6 +33,11 @@ set bell-style none
 # e.g. \n as enter
 set enable-bracketed-paste on
 
+set show-mode-in-prompt off
+
+#set vi-cmd-mode-string ""
+#set vi-ins-mode-string ""
+
 # st-specific key binds
 $if term=st
 
