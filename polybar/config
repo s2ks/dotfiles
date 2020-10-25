@@ -13,11 +13,11 @@ alert		= #ff7777
 warning		= #ffd877
 
 [bar/stbar]
-width 	= 100%:-32
+width 	= 100%:-16
 height 	= 20
 radius	= 0.0
 
-offset-x = 16
+offset-x = 8
 offset-y = 8
 
 override-redirect 	= true
@@ -273,23 +273,19 @@ label-connected	= %signal%% %local_ip%
 
 [module/wired-speed]
 type = internal/network
-interface = en0s25
 
 inherit = module/wired-network
 
 format-connected = <label-connected>
-format-connected-underline 	=
-format-disconnected-underline	=
-format-packetloss-underline	=
+;format-connected-underline 	=
+;format-disconnected-underline	=
+;format-packetloss-underline	=
 
 label-connected = ${self.connection-speed}
 
 [module/wireless-speed]
 type = internal/network
-interface = wlan0
-format-connected-underline 	=
-format-disconnected-underline	=
-format-packetloss-underline	=
+inherit = module/wireless-network
 
 inherit = module/wired-speed
 
