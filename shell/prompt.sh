@@ -8,7 +8,6 @@ ARROW_RIGHT=""
 ARROW_RIGHT_SEP=""
 GIT_BRANCH_ICON=""
 RANGER_ICON=" "
-HOME_ICON=" "
 
 ESC="\e"
 BOLD="1"
@@ -20,7 +19,9 @@ USER_BG="5;140"
 USER_FG="5;232"
 CWD_BG="5;240"
 CWD_FG="5;255"
-CWD_MAX_LEN=4
+CWD_MAX_LEN=3
+#CWD_PATH_SEP="/"
+CWD_PATH_SEP=" $ARROW_RIGHT_SEP "
 
 LAST_EXITCODE=
 
@@ -66,6 +67,13 @@ prompt_git() {
 	local fg=$1
 	local bg=$2
 
+	# For me while testing, the following command completes in about 4 ms
+	# if there is no git repository and about 6 ms if there is a git repository.
+	# The "official" git prompt uses `git rev-parse` to check for a git repository
+	# and collect some additional information about it, which also completes in about
+	# 4 ms, whether it's in a git repo or not. I am not interested in the additional
+	# info rev-parse provides. Hence the usage of `git describe` to check for the
+	# existance of a git repo while also finding out the current branch name.
 	local branch="$(git describe --contains --all HEAD 2>/dev/null)"
 	if [[ -z $branch ]]; then
 		echo ""
@@ -110,13 +118,17 @@ prompt_cwd() {
 	cwd="\[$ESC[0;$(BG $bg);$(FG $fg)m\]"
 
 	if [[ $len -gt 1 ]]; then
-		cwd+=" ${elems[0]} $ARROW_RIGHT_SEP"
+		cwd+=" ${elems[0]}$CWD_PATH_SEP"
 		len=$(($len - 1)) # element 0 has been printed
+	else
+		cwd+="\[$ESC[${BOLD}m\] ${elems[0]}"
+		echo "$cwd"
+		return
 	fi
 
 	# Show the final n directories with n being CWD_MAX_LEN - 1
 	if [[ $idx -gt 0 ]]; then
-		cwd+=" ... $ARROW_RIGHT_SEP"
+		cwd+="...$CWD_PATH_SEP"
 
 		# remember, element 0 has already been printed, so don't print
 		# full CWD_MAX_LEN
@@ -126,19 +138,19 @@ prompt_cwd() {
 		idx=0
 	fi
 
-	# we don't want to print elems[0] again so increment idx by 1
+	# we don't want to print elems[0] so increment idx by 1
 	idx=$(($idx + 1))
 
 	# the final element to print should have a special arrow character
 	# so we need to make sure it is not printed by the following loop
 	count=$(($len - 1))
 
-	for i in "${elems[@]:$idx:$count}"; do
-		cwd+=" ${i} $ARROW_RIGHT_SEP"
+	for i in "${elems[@]:idx:count}"; do
+		cwd+="${i}$CWD_PATH_SEP"
 	done
 
 	# finally, handle the last element in our CWD
-	cwd+="\[$ESC[${BOLD}m\] ${elems[-1]}"
+	cwd+="\[$ESC[${BOLD}m\]${elems[-1]}"
 
 	echo $cwd
 }
@@ -151,6 +163,7 @@ prompt_user() {
 }
 
 set_PS1() {
+	# save the last exit code ASAP because it will be overwritten in this script
 	LAST_EXITCODE=$?
 	local prompt=""
 	local prompt_calls=()
