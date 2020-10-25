@@ -504,3 +504,16 @@ index 8201ad6..25c3e68 100644
  # disabled rep for now: causes some issues with older ncurses versions.
  #	rep=%p1%c\E[%p2%{1}%-%db,
  # tmux extensions, see TERMINFO EXTENSIONS in tmux(1)
+diff --git a/x.c b/x.c
+index 210f184..1227dd5 100644
+--- a/x.c
++++ b/x.c
+@@ -1595,6 +1595,8 @@ xsettitle(char *p)
+ int
+ xstartdraw(void)
+ {
++	if (IS_SET(MODE_VISIBLE))
++		XCopyArea(xw.dpy, xw.win, xw.buf, dc.gc, 0, 0, win.w, win.h, 0, 0);
+ 	return IS_SET(MODE_VISIBLE);
+ }
+ 
