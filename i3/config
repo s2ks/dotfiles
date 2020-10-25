@@ -62,10 +62,15 @@ default_floating_border none
 hide_edge_borders both
 
 # i3-gaps
-gaps inner 16
+gaps inner 8
+#gaps horizontal 128
+
+bar {
+	i3bar_command $HOME/.config/polybar/launch.sh
+}
 
 # leave space for the status bar
-gaps top 20
+gaps top 28
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -131,11 +136,25 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
+mode "gaps" {
+	bindsym Left gaps horizontal current plus 32
+	bindsym Right gaps horizontal current minus 32
+	bindsym Down gaps vertical current plus 32
+	bindsym Up gaps vertical current minus 32
+
+	bindsym Shift+Up gaps bottom current set 0; gaps horizontal current set 0; gaps top current set 28
+
+	bindsym Return mode "default"
+	bindsym Escape  mode "default"
+}
+
 # enter resize mode
 bindsym $mod+r mode "resize"
+bindsym $mod+g mode "gaps"
+bindsym $mod+Shift+g gaps horizontal current set 0; gaps bottom current set 0; gaps top current set 28
 
 # launch polybar
-exec_always --no-startup-id "$HOME/.config/polybar/launch.sh"
+#exec_always --no-startup-id "$HOME/.config/polybar/launch.sh"
 
 # launch unclutter, hides the cursor when the mouse is not used
 exec_always --no-startup-id "$HOME/.local/bin/launch_unclutter"
