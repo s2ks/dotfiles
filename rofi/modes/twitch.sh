@@ -59,6 +59,7 @@ get_rofi_selection() {
 
 open_stream() {
 	local url=$1
+	local title=$2
 	[ -z "$url" ] && return 1
 
 	coproc streamlink \
@@ -66,7 +67,28 @@ open_stream() {
 			$url 'best' ; }
 	trap "kill $streamlink_PID" EXIT
 
-	vlc --qt-minimal-view - <&"${streamlink[0]}"
+	vlc --meta-title "$title" --qt-minimal-view - <&"${streamlink[0]}"
+}
+
+open_chat() {
+	local channel=$1
+	[ -z "$channel" ] && return 1
+
+	local tmpfile=$(mktemp)
+	trap "rm $tmpfile" EXIT
+
+	local url="https://www.twitch.tv/popout/$channel/chat"
+	echo "<script type=\"text/javascript\">
+	function chatPopout(url) {
+		window.open(url, '', 'menubar=off,toolbar=off,status=off');
+	}
+	</script>
+	<a href=$url onclick=\"chatPopout(this.href); window.close();\">Popout chat</a>" \
+		> $tmpfile
+
+	#coproc chat { chromium --app=$url ; }
+	coproc chat { firefox --new-window $tmpfile ; }
+	trap "kill $chat_PID" EXIT
 }
 
 get_userid() {
@@ -81,7 +103,6 @@ get_userid() {
 	[ -z "$userid" ] && return 1
 	[ "$userid" == "null" ] && return 1
 
-	# strip leading and trailing quotes
 	echo "$userid"
 }
 
@@ -152,17 +173,19 @@ search_for_live_streams() {
 	echo "$live_streams"
 }
 
-get_live_stream_url() {
-	local streamdata=$1
-	local selection=$2
+get_from_rofi_selection() {
+	local streamdata=$live_streams
+	local selection=$rofi_selection
+	local field=$1
 
 	[ -z "$streamdata" ] && return 1
 	[ -z "$selection" ] && return 1
+	[ -z "$field" ] && return 1
 
-	local streamurl=$(jq ".streams[$selection].channel.url" <<< $streamdata)
-	streamurl=${streamurl:1:-1}
+	local res=$(jq --raw-output \
+		".streams[$selection].$field" <<< $streamdata)
 
-	echo "$streamurl"
+	echo "$res"
 }
 
 print_streams() {
@@ -211,9 +234,14 @@ get_rofi_selection
 close_rofi
 
 if [[ $rofi_selection -gt -1 ]]; then
-	url=$(get_live_stream_url "$live_streams" "$rofi_selection")
+	url=$(get_from_rofi_selection "channel.url")
+	channel=$(get_from_rofi_selection "channel.name")
+	title=$(get_from_rofi_selection "channel.status")
 
-	open_stream "$url"
+	echo "$title"
+
+	open_chat "$channel"
+	open_stream "$url" "$title"
 else
 	[ -z "$rofi_query" ] && exit
 
@@ -228,7 +256,10 @@ else
 		close_rofi
 	done
 
-	url=$(get_live_stream_url "$live_streams" "$rofi_selection")
+	url=$(get_from_rofi_selection "channel.url")
+	channel=$(get_from_rofi_selection "channel.name")
+	title=$(get_from_rofi_selection "channel.status")
 
-	open_stream "$url"
+	open_chat "$channel"
+	open_stream "$url" "$title"
 fi
