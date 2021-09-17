@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# TODO theme for this mode
-
 USER="s1ks"
 CLIENTID="Client-Id: kdsw4p8qqmlnwd7xi3ve1ri0ygi0ys"
 ACCEPT="Accept: application/vnd.twitchtv.v5+json"
@@ -35,7 +33,7 @@ kraken_get() {
 }
 
 open_rofi() {
-	coproc rofi { rofi -dmenu -async-pre-read 0 -format i:f ; }
+	coproc rofi { rofi -dmenu -async-pre-read 0 -theme twitch -format i:f ; }
 	trap "kill $rofi_PID" EXIT
 
 	rofi_in="${rofi[1]}"
