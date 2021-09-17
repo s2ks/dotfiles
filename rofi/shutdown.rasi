@@ -1,5 +1,4 @@
 configuration {
-	fullscreen: true;
 	show-icons: true;
 }
 
@@ -7,6 +6,11 @@ configuration {
 
 window {
 	padding: 	calc(50% - 4em) calc(50% - 20em);
+}
+
+
+window {
+	fullscreen: true;
 }
 
 mainbox {
@@ -24,9 +28,12 @@ element {
 
 element-text {
 	horizontal-align: 	0.5;
-	vertical-align: 	0.5;
+	vertical-align: 	1;
 }
 
 element-icon {
 	size: 3.5em;
+	horizontal-align: 0.5;
 }
+
+/* vim:syntax=css

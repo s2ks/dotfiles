@@ -75,3 +75,13 @@ element selected {
 	border-color: 		@background-sel;
 	border-radius: 		0.5em;
 }
+
+element-icon selected {
+	background-color: 	@background-sel;
+}
+
+element-text selected {
+	background-color: 	@background-sel;
+}
+
+/* vim:syntax=css
