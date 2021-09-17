@@ -25,7 +25,7 @@ else
 			systemctl suspend
 			;;
 		Hibernate)
-			systemctl hibernate
+			systemctl suspend-then-hibernate
 			;;
 	esac
 fi
