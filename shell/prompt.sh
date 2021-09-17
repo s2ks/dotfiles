@@ -193,13 +193,7 @@ prompt_cwd2() {
 	done <<< $short
 
 	# replace all slashes, except the leading slash, with a newline
-	cwd=$(sed -E 's/(^\/+)|(\/+)/\1\n/g' <<< $cwd)
-
-	local elems=()
-	for elem in $cwd; do
-		[ -z "$elem" ] && continue
-		elems+=("$elem")
-	done
+	IFS=$'\n' elems=(`sed -E 's/(^\/+)|(\/+)/\1\n/g' <<< $cwd`)
 
 	# make this element bold
 	local bold_elem="${elems[-1]}"
