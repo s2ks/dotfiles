@@ -4,6 +4,8 @@
 # characters so that the prompt doesn't jump around or disappears when
 # entering/editing a command.
 
+# TODO rewrite in perl
+
 ARROW_RIGHT=""
 ARROW_RIGHT_SEP=""
 GIT_BRANCH_ICON=""
@@ -83,9 +85,9 @@ prompt_git() {
 	local prompt="\[$ESC[0;$(FG $fg);$(BG $bg);${BOLD}m\] $GIT_BRANCH_ICON $branch"
 
 	local untracked="$(git ls-files --others --exclude-standard 2>/dev/null)"
-	local uncomitted"$(git diff --no-ext-diff --quiet; echo $?)"
+	local uncomitted="$(git diff --no-ext-diff --quiet; echo $?)"
 
-	if [[ -n $untracked || $uncomitted -eq 1 ]]; then
+	if [[ -n $untracked || $uncomitted -ne 0 ]]; then
 		prompt+="*"
 	fi
 
@@ -103,9 +105,8 @@ prompt_cwd() {
 		cwd="~${cwd:hlen}"
 	fi
 
-	# split the path at the directory seperator
-	local cwd=${cwd////' '}
-	read -a elems <<< $cwd
+	cwd="${cwd////' '}"
+	read -a elems <<< "$cwd"
 
 	# exscuse the mess, this is supposed to shorten the path displayed
 	# in the prompt similar to how powerline does.
@@ -149,8 +150,69 @@ prompt_cwd() {
 		cwd+="${i}$CWD_PATH_SEP"
 	done
 
-	# finally, handle the last element in our CWD
+	# finally, handle the last (or only) element in our CWD
 	cwd+="\[$ESC[${BOLD}m\]${elems[-1]}"
+
+	echo $cwd
+}
+
+PROMPT_CWD_MAX_START=2
+PROMPT_CWD_MAX_END=2
+
+prompt_cwd2() {
+	local fg=$1
+	local bg=$2
+	local cwd="$PWD"
+
+	# substitute home for '~'
+	if [[ ${cwd:0:${#HOME}} == "$HOME" ]]; then
+		cwd="~${cwd:${#HOME}}"
+	fi
+
+	# help.
+	local m1=$PROMPT_CWD_MAX_START
+	local m2=$PROMPT_CWD_MAX_END
+	local regex_hell="^((\/?)([^\/]?)+(\/?)){1,$m1}|((\/?)([^\/]+)(\/?)){1,$m2}$"
+
+	# group all repeating slashes and replace them with a single slash
+	cwd=$(sed -E 's/(\/+)/\//g' <<< $cwd)
+
+	# split the path into two parts; start & end
+	local short=$(grep --color=never -E -o "$regex_hell" <<< $cwd)
+
+	cwd=""
+	# figure out if the path was shortened, and if so; substutute '...'
+	while read part; do
+		[ -z "$part" ] && continue
+		if [[ -n "$cwd" ]]; then
+			[ ${part:0:1} == '/' ] && cwd+="..."
+			cwd+="$part"
+		else
+			cwd="$part"
+		fi
+	done <<< $short
+
+	# replace all slashes, except the leading slash, with a newline
+	cwd=$(sed -E 's/(^\/+)|(\/+)/\1\n/g' <<< $cwd)
+
+	local elems=()
+	for elem in $cwd; do
+		[ -z "$elem" ] && continue
+		elems+=("$elem")
+	done
+
+	# make this element bold
+	local bold_elem="${elems[-1]}"
+
+	#[ -n "${elems[-1]}" ] && unset elems[-1]
+	unset elems[-1]
+
+	cwd="\[$ESC[0;$(FG $fg);$(BG $bg)m\] "
+	for i in "${elems[@]}"; do
+		cwd+="$i$CWD_PATH_SEP"
+	done
+
+	cwd+="\[$ESC[${BOLD}m\]$bold_elem"
 
 	echo $cwd
 }
@@ -170,7 +232,8 @@ set_PS1() {
 	prompt_calls+=("prompt_ranger 5;232 5;131")
 	prompt_calls+=("prompt_user $USER_FG $USER_BG")
 	prompt_calls+=("prompt_exitstatus $WHITE $RED")
-	prompt_calls+=("prompt_cwd $CWD_FG $CWD_BG")
+	#prompt_calls+=("prompt_cwd $CWD_FG $CWD_BG")
+	prompt_calls+=("prompt_cwd2 $CWD_FG $CWD_BG")
 	prompt_calls+=("prompt_git 5;232 5;113")
 
 	local last_bg
