@@ -4,12 +4,13 @@
 # characters so that the prompt doesn't jump around or disappears when
 # entering/editing a command.
 
-# TODO rewrite in perl
+# TODO rewrite in perl (or python or common lisp or awk?!?!)
 
 ARROW_RIGHT=""
 ARROW_RIGHT_SEP=""
 GIT_BRANCH_ICON=""
 RANGER_ICON=" "
+THREE_DOTS="…"
 
 ESC="\e"
 BOLD="1"
@@ -26,6 +27,12 @@ CWD_MAX_LEN=3
 CWD_PATH_SEP=" $ARROW_RIGHT_SEP "
 
 LAST_EXITCODE=
+
+PROMPT_DEBUG=0
+
+debug() {
+         [[ $PROMPT_DEBUG -ne 0 ]] && echo "$*" 1>&2
+}
 
 FG() {
 	echo "38;$1"
@@ -94,6 +101,10 @@ prompt_git() {
 	echo "$prompt"
 }
 
+# TODO this can be removed and prompt_cwd2 can
+# be renamed to prompt_cwd
+
+# UNUSED
 prompt_cwd() {
 	local fg=$1
 	local bg=$2
@@ -129,7 +140,7 @@ prompt_cwd() {
 
 	# Show the final n directories with n being CWD_MAX_LEN - 1
 	if [[ $idx -gt 0 ]]; then
-		cwd+="...$CWD_PATH_SEP"
+		cwd+="$THREE_DOTS$CWD_PATH_SEP"
 
 		# remember, element 0 has already been printed, so don't print
 		# full CWD_MAX_LEN
@@ -164,47 +175,94 @@ prompt_cwd2() {
 	local bg=$2
 	local cwd="$PWD"
 
+        # print cwd in a format that can be used as shell input
+        # (e.g. escape backslashes)
+        cwd=`printf %q $cwd`
+
+        # regex literal slash for readability hopefully
+        # NOTE sometimes the forward slash '/' has to be escaped
+        # and sometimes it doesn't, so the $SLASH variable and the literal
+        # '/' are used intermittently. Sorry!
+        local SLASH='\/'
+        # empty character for regex readability hopefully
+        local EMPTY=''
+
 	# substitute home for '~'
 	if [[ ${cwd:0:${#HOME}} == "$HOME" ]]; then
 		cwd="~${cwd:${#HOME}}"
 	fi
 
-	# help.
 	local m1=$PROMPT_CWD_MAX_START
 	local m2=$PROMPT_CWD_MAX_END
-	local regex_hell="^((\/?)([^\/]?)+(\/?)){1,$m1}|((\/?)([^\/]+)(\/?)){1,$m2}$"
+        # At start of line (^) match 0 or 1 (?) forward slash, 0 or more (*) non forward
+        # slashes [^/] and 0 or 1 (?) forward slash -> at least once and at most $m1 times
+        # {1,$m1}
+        # FIXME this always results in a match, even if empty
+        # a better regex would be something like ^(/?[^/]+/?){1,$m1}|^\/
+        local regex_part1="^($SLASH?[^/]*$SLASH?){1,$m1}"
 
-	# group all repeating slashes and replace them with a single slash
-	cwd=$(sed -E 's/(\/+)/\//g' <<< $cwd)
+        # At end of line ($) match 0 or 1 (?) forward slash at least one (+)
+        # non-forward slash [^/] and 0 or 1 (?) forward slash ->
+        # at least once and at most $m2 times {1, $m2}
+        local regex_part2="($SLASH?[^/]+$SLASH?){1,$m2}$"
 
-	# split the path into two parts; start & end
-	local short=$(grep --color=never -E -o "$regex_hell" <<< $cwd)
+	# group all repeating forward slashes and replace them with a single
+        # forward slash
+	cwd=$(sed -E "s/$SLASH+/$SLASH/g" <<< $cwd)
 
-	cwd=""
-	# figure out if the path was shortened, and if so; substutute '...'
-	while read part; do
-		[ -z "$part" ] && continue
-		if [[ -n "$cwd" ]]; then
-			[ ${part:0:1} == '/' ] && cwd+="..."
-			cwd+="$part"
-		else
-			cwd="$part"
-		fi
-	done <<< $short
+        local part1=`grep --color=never -P -o "$regex_part1" <<< $cwd`
+        cwd=`sed -E "s/$regex_part1/$EMPTY/g" <<< $cwd`
 
-	# replace all slashes, except the leading slash, with a newline
-	IFS=$'\n' elems=(`sed -E 's/(^\/+)|(\/+)/\1\n/g' <<< $cwd`)
+        local part2=`grep --color=never -P -o "$regex_part2" <<< $cwd`
+        cwd=`sed -E "s/$regex_part2/$EMPTY/g" <<< $cwd`
 
-	# make this element bold
-	local bold_elem="${elems[-1]}"
+        # If cwd is not empty then we need to shorten it, to display
+        # that it has been shortened we place a character showing three
+        # dots between part1 and part2 of the path
+        if [[ -n $cwd ]]; then
+                cwd=$part1$THREE_DOTS$part2
+        else
+                cwd=$part1$part2
+        fi
 
-	#[ -n "${elems[-1]}" ] && unset elems[-1]
-	unset elems[-1]
+        # Get last element, this element will be made bold to give
+        # a highlighting effect.
+        # We do it in this order because there may only be one element
+        # so we need to prevent duplicate elements.
 
+        # SYNTAX NOTE FOR FUTURE ME: the '^' character inside the '[' and ']'
+        # characters means NOT, so [^/] means match any character that's not a '/'.
+        # But outside '[]' it means start of line so ^/ means match a '/'
+        # character at the start of a line.
+        # '*' means match 0 or more, '$' means end of line, '+' means 1 or more
+        # and '|' means OR/alternatively.
+
+        # Match at least one non '/' character and 0 or more '/' characters
+        # at end of line
+        local last_elem_regex="[^/]+$SLASH*$"
+        # Match 0 or more '/' characters and at least one non '/' character
+        # at start of line alternatively match 1 or more '/' characters at start of line
+        # (for when we navigate to / (root) display '/')
+        local first_elem_regex="^$SLASH*[^/]+|^$SLASH+"
+        local last_elem=`grep --color=never -o -P "$last_elem_regex" <<< $cwd`
+        # remove last element
+        cwd=`sed -E "s/$last_elem_regex/$EMPTY/g" <<< $cwd`
+
+        # get first element
+        local first_elem=`grep --color=never -o -P "$first_elem_regex" <<< $cwd`
+        # and remove
+        cwd=`sed -E "s/$first_elem_regex/$EMPTY/g" <<< $cwd`
+
+        # Replace the remaining slashes with our own fancy path separator
+        cwd=`sed -E "s/$SLASH+/$CWD_PATH_SEP/g" <<< $cwd`
+
+	# make the last element bold
+	local bold_elem=$last_elem
+
+        local cwd_remain=$cwd
 	cwd="\[$ESC[0;$(FG $fg);$(BG $bg)m\] "
-	for i in "${elems[@]}"; do
-		cwd+="$i$CWD_PATH_SEP"
-	done
+        cwd+="$first_elem"
+        cwd+="$cwd_remain"
 
 	cwd+="\[$ESC[${BOLD}m\]$bold_elem"
 
