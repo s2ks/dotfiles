@@ -7,18 +7,6 @@
 
 export XDG_CONFIG_HOME=$HOME/.config
 
-# tmux on shell login
-#[[ -z "$TMUX" ]] && exec tmux
-
-# transparency
-#[ -n "$XTERM_VERSION" ] && transset-df --id "$WINDOWID" > /dev/null
-
-#powerline-daemon -q
-#POWERLINE_BASH_CONTINUATION=1
-#POWERLINE_BASH_SELECT=1
-
-#. /usr/share/powerline/bindings/bash/powerline.sh
-
 alias ls='ls --color=always'
 alias la='ls -la'
 alias grep='grep --color=always'
@@ -28,6 +16,11 @@ alias diff='diff --color=always'
 alias mv='mv -i'
 alias rm='rm -I'
 alias cp='cp -i'
+
+# Alias for neovim because I keep typing 'vim' out of habit
+# Use 'realvim' to start the actual vim instead of neovim
+alias vim='nvim'
+alias realvim="`which vim`"
 
 # allow minor spelling mistakes in arguments to 'cd'
 shopt -s cdspell
@@ -55,9 +48,11 @@ export HISTCONTROL=ignoredups
 export PAGER=less
 
 # default editor
-export EDITOR=vim
+export EDITOR=nvim
 
 # Custom bash prompt
+# TODO only source this promt if running a graphical terminal:
+# st, xterm, etc.
 source $HOME/.config/bash/prompt.sh
 
 # Bash autocompletion extension
