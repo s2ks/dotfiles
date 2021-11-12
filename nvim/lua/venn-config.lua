@@ -22,12 +22,12 @@ function _G.toggle_venn()
 		map(0, "v", "f", ":VBox<CR>", { noremap = true })
 		map(0, "v", "F", ":VBoxO<CR>", { noremap = true})
 
-                cmd [[echo "Venn enabled..."]]
+		cmd [[echo "Venn enabled..."]]
 	else
 		cmd [[setlocal ve=]]
 		cmd [[setlocal noexpandtab]]
 		cmd [[mapclear <buffer>]]
-                cmd [[echo "Venn disabled..."]]
+		cmd [[echo "Venn disabled..."]]
 		b.venn_enabled = false
 	end
 end

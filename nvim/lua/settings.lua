@@ -17,7 +17,7 @@ opt.hlsearch = true 			-- hightlight searches, disable with :noh
 opt.ignorecase = true 			-- ignore case when searching
 opt.smartcase = true 			-- don't ignore uppercase
 opt.backspace = 'indent,eol,start' 	-- allow backspacing over indentation,
-					-- end of line and start of insert
+-- end of line and start of insert
 
 opt.autoindent = true 			-- enable auto indent
 cmd [[set nostartofline]] 		-- disable some start of line movements
@@ -62,7 +62,7 @@ cmd [[colorscheme PaperColor]]
 cmd [[
 if empty(v:servername) && exists('*remote_startserver')
 	call remote_startserver('VIM')
-endif
+	endif
 ]]
 
 -- st keybinds
@@ -76,5 +76,5 @@ if &term =~ "st"
 	noremap [1;5C 	<C-Right>
 	noremap [1;5A 	<C-Up>
 	noremap [1;5B 	<C-Down>
-endif
+	endif
 ]]
