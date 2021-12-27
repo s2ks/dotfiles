@@ -10,3 +10,6 @@
 [submodule ".config/picom"]
 	path = .config/picom
 	url = /home/jilles/.config/picom/
+[submodule ".config/polybar"]
+	path = .config/polybar
+	url = /home/jilles/.config/polybar/
