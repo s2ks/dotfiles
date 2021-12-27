@@ -13,3 +13,6 @@
 [submodule ".config/polybar"]
 	path = .config/polybar
 	url = /home/jilles/.config/polybar/
+[submodule ".config/ranger"]
+	path = .config/ranger
+	url = /home/jilles/.config/ranger/
