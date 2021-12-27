@@ -1,0 +1,6 @@
+[submodule ".config/i3"]
+	path = .config/i3
+	url = /home/jilles/.config/i3/
+[submodule ".config/nvim"]
+	path = .config/nvim
+	url = /home/jilles/.config/nvim/
