@@ -36,4 +36,22 @@ case "$1" in
 				;;
 		esac
 		;;
+	ac_adapter)
+		case "$2" in
+			ACPI0003:00)
+				case "$4" in
+					00000001)
+						# AC plugged in, disable screensaver
+						#xset s off
+						logger "AC plugged in"
+						;;
+					00000000)
+						# AC unplugged, enable screensaver
+						#xset s on
+						logger "AC unplugged"
+					;;
+				esac
+				;;
+		esac
+		;;
 esac
