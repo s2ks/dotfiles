@@ -1,27 +1,3 @@
-[submodule ".config/i3"]
-	path = .config/i3
-	url = /home/jilles/.config/i3/
-[submodule ".config/nvim"]
-	path = .config/nvim
-	url = /home/jilles/.config/nvim/
 [submodule "st"]
 	path = st
 	url = https://github.com/s2ks/my-st-pkg
-[submodule ".config/picom"]
-	path = .config/picom
-	url = /home/jilles/.config/picom/
-[submodule ".config/polybar"]
-	path = .config/polybar
-	url = /home/jilles/.config/polybar/
-[submodule ".config/ranger"]
-	path = .config/ranger
-	url = /home/jilles/.config/ranger
-[submodule ".config/rofi"]
-	path = .config/rofi
-	url = /home/jilles/.config/rofi
-[submodule ".config/bash"]
-	path = .config/bash
-	url = /home/jilles/.config/bash/
-[submodule ".config/gtk-3.0"]
-	path = .config/gtk-3.0
-	url = /home/jilles/.config/gtk-3.0/
