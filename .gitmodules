@@ -15,10 +15,13 @@
 	url = /home/jilles/.config/polybar/
 [submodule ".config/ranger"]
 	path = .config/ranger
-	url = /home/jilles/.config/ranger/
+	url = /home/jilles/.config/ranger
 [submodule ".config/rofi"]
 	path = .config/rofi
-	url = /home/jilles/.config/rofi/
+	url = /home/jilles/.config/rofi
 [submodule ".config/bash"]
 	path = .config/bash
 	url = /home/jilles/.config/bash/
+[submodule ".config/gtk-3.0"]
+	path = .config/gtk-3.0
+	url = /home/jilles/.config/gtk-3.0/

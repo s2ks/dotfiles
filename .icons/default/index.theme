@@ -1,6 +1,5 @@
 # volantes cursor theme
 # https://www.pling.com/p/1356095/
-# ~/.icons/default/index.theme
 
 [icon theme]
 Inherits=volantes_cursors

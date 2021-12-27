@@ -23,7 +23,35 @@ let g:powerline_pycmd="py3"
 Plug 'lervag/vimtex'
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_use_temp_files = 1
+let g:vimtex_compiler_latexmk = {
+			\ 'build_dir' : '',
+			\ 'callback' : 1,
+			\ 'continuous' : 1,
+			\ 'executable' : 'latexmk',
+			\ 'hooks' : [],
+			\ 'options' : [
+			\ 	'-verbose',
+			\ 	'-file-line-error',
+			\ 	'-synctex=1',
+			\	'-interaction=nonstopmode',
+			\ 	'-shell-escape'
+			\ ],
+			\}
 let g:tex_flavor = 'latex'
+let g:vimtex_grammar_vlty = {
+			\ 'lt_command': 'languagetool',
+			\ 'show_suggestions': 1
+			\}
+
+" snippet engine
+Plug 'SirVer/ultisnips'
+let g:UltiSnipsExpandTrigger="<S-Tab>"
+let g:UltiSnipsJumpForwardTrigger="<C-Down>"
+let g:UltiSnipsJumpBackwardTrigger="<C-Up>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "custom_snips"]
+
+" Snippets
+Plug 'honza/vim-snippets'
 
 " You Complete Me
 " Plug 'Valloric/YouCompleteMe'
@@ -34,6 +62,9 @@ Plug 'ajh17/VimCompletesMe'
 call plug#end()
 
 set nocompatible
+
+" spell checking
+set spell spelllang=nl,en
 
 " auto-indent
 filetype indent plugin on
@@ -99,6 +130,9 @@ set pastetoggle=<F11>
 set shiftwidth=8
 set tabstop=8
 
+" no line wrapping
+set nowrap
+
 set encoding=utf-8
 
 " use system clipboard by default
@@ -107,15 +141,18 @@ set clipboard=unnamedplus
 set background=dark
 colorscheme PaperColor
 
+if empty(v:servername) && exists('*remote_startserver')
+	call remote_startserver('VIM')
+endif
 
 " st keybinds
 if &term =~ "st"
-	noremap <ESC>[1;2B 	<C-F>
-	noremap <ESC>[1;2A 	<C-B>
-	noremap <ESC>[1;2C 	w
-	noremap <ESC>[1;2D 	b
-	noremap [1;5C 	$
-	noremap [1;5D 	0
-	noremap [1;5A 	<nop>
-	noremap [1;5B 	<nop>
+	noremap <ESC>[1;2A 	<S-Up>
+	noremap <ESC>[1;2B 	<S-Down>
+	noremap <ESC>[1;2D 	<S-Left>
+	noremap <ESC>[1;2C 	<S-Right>
+	noremap [1;5D 	<C-Left>
+	noremap [1;5C 	<C-Right>
+	noremap [1;5A 	<C-Up>
+	noremap [1;5B 	<C-Down>
 endif

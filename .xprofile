@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # I had some issues with .Xresources not loading
 xrdb -load ~/.Xresources &
 xrdb -merge ~/.Xresources &
@@ -18,8 +16,8 @@ xrdb -merge ~/.Xresources &
 xset r rate 200 50
 
 # power saving
-xset s 300
+xset s 600
 xset dpms 0 0 0
 
-# background (generate with feh --bg-fill <file>)
+# background
 ~/.fehbg

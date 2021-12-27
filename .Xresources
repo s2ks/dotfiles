@@ -1,0 +1,141 @@
+Xcursor.theme: 		volantes_cursors
+
+URxvt.background:	#20242e
+URxvt.foreground:	#ccc8d4
+URxvt.cursorColor: 	#cccccc
+! Black, Grey, Silver, White
+URxvt.color0:	#282c34
+URxvt.color7:	#abb2bf
+URxvt.color8:	#545862
+URxvt.color15:	#c8ccd4
+
+! Red
+URxvt.color1:	#e06c75
+URxvt.color9:	#e06c75
+
+! Green
+URxvt.color2:	#98c379
+URxvt.color10:	#98c379
+
+URxvt.color3:	#e5c07b
+URxvt.color11:	#e5c07b
+
+URxvt.color4:	#61afef
+URxvt.color12:	#61afef
+
+URxvt.color5:	#c678dd
+URxvt.color13:	#c678dd
+
+URxvt.color6:	#56b6c2
+URxvt.color14:	#56b6c2
+
+URxvt.color16:	#d19a66
+URxvt.color17:  #be5046
+URxvt.color18:  #353b45
+URxvt.color19:  #3e4451
+URxvt.color20:  #565c64
+URxvt.color21:  #b6bdca
+
+#define fonts 		xft:Source Code Pro:antialias=true:pixelsize=12,\
+			xft:Font Awesome 5 Free:pixelsize=8,\
+			xft:Font Awesome 5 brands:pixelsize=8,\
+			xft:PowerlineSymbols:pixelsize=8,\
+			xft:Noto Color Emoji:pixelsize=8
+
+URxvt*font: 		fonts
+
+
+!URxvt.font:		fonts
+!URxvt.boldFont: 	fonts
+!URxvt.italicFont: 	fonts
+!URxvt.boldItalicFont: 	fonts
+URxvt.skipBuiltinGlyphs: False
+URxvt.lineSpace: 	0
+URxvt.scrollstyle:	xterm
+URxvt.scrollBar:	False
+URxvt.saveLines:	8192
+URxvt.url-launcher:	firefox
+
+Xcursor.size:		16
+
+
+!! Xterm
+XTerm.termName:		xterm-256color
+XTerm.vt100.locale: 	true
+XTerm.ttyModes: 	erase ^?
+XTerm.reportFonts: 	false
+XTerm.toolBar: 	false
+
+! fonts
+XTerm.vt100.renderFont: 	true
+XTerm.vt100.ShowMissingGlyphs: 	true
+XTerm*faceName: 		x:adobe
+
+
+
+XTerm.vt100.fontWarnings: 		2
+XTerm.vt100.faceSize: 		9px
+
+XTerm.vt100.saveLines: 	4096
+
+XTerm.vt100.metaSendsEscape: 	false
+XTerm.vt100.backarrowKey: 	false
+
+! Display
+XTerm.vt100.reverseVideo: 	false
+! enable sixel
+XTerm.vt100.decTerminalID: 	vt340
+XTerm.vt100.sixelScrolling: 	true
+XTerm.vt100.sixelScrollsRight: true
+
+XTerm.vt100.selectToClipboard:	true
+
+XTerm.vt100.cursorColor: #cccccc
+XTerm.vt100.background: #20242e
+XTerm.vt100.foreground: #c8ccd4
+
+! Black, Grey, Silver, White
+XTerm.vt100.color0:	#282c34
+XTerm.vt100.color7:	#abb2bf
+XTerm.vt100.color8:	#545862
+XTerm.vt100.color15:	#c8ccd4
+
+! Red
+XTerm.vt100.color1:	#e06c75
+XTerm.vt100.color9:	#e06c75
+
+! Green
+XTerm.vt100.color2:	#98c379
+XTerm.vt100.color10:	#98c379
+
+XTerm.vt100.color3:	#e5c07b
+XTerm.vt100.color11:	#e5c07b
+
+XTerm.vt100.color4:	#61afef
+XTerm.vt100.color12:	#61afef
+
+XTerm.vt100.color5:	#c678dd
+XTerm.vt100.color13:	#c678dd
+
+XTerm.vt100.color6:	#56b6c2
+XTerm.vt100.color14:	#56b6c2
+
+XTerm.vt100.color16:	#d19a66
+XTerm.vt100.color17:    #be5046
+XTerm.vt100.color18:    #353b45
+XTerm.vt100.color19:    #3e4451
+XTerm.vt100.color20:    #565c64
+XTerm.vt100.color21:    #b6bdca
+
+XTerm.scaleHeight:	1.0
+
+XTerm.vt100.translations: #override 			\n\
+	Ctrl Alt <Key>S: 	secure()		\n\
+	Shift <KeyPress> Home: 	scroll-to(begin) 	\n\
+	Shift <KeyPress> End:	scroll-to(end)		\n\
+	Ctrl Shift <Key> C:	copy-selection(SELECT)	\n\
+	Ctrl Shift <Key> V:	insert-selection(SELECT)\n\
+	Ctrl <Key> +:		larger-vt-font()	\n\
+	Ctrl <Key> -:		smaller-vt-font()	\n\
+	Ctrl <Key> 0:		set-vt-font(d)		\n\
+	Ctrl Shift <Key> T:	spawn-new-terminal()
