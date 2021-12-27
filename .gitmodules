@@ -16,3 +16,6 @@
 [submodule ".config/ranger"]
 	path = .config/ranger
 	url = /home/jilles/.config/ranger/
+[submodule ".config/rofi"]
+	path = .config/rofi
+	url = /home/jilles/.config/rofi/
