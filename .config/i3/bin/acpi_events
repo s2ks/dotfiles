@@ -1,0 +1,15 @@
+#!/bin/bash
+# this is a (temporary) workaround for acpid failing to run pamixer and xbacklight
+# properly.
+# pamixer fails with "connection error"
+# and xbacklight succeeds with "randr query version returned error -1"
+
+# liberated from
+# https://wiki.archlinux.org/index.php/Acpid#Connect_to_acpid_socket
+
+coproc acpi_listen
+trap 'kill $COPROC_PID' EXIT
+
+while read -u "${COPROC[0]}" -a event; do
+	/etc/acpi/custom_handler.sh "${event[@]}"
+done

@@ -1,0 +1,14 @@
+configuration {
+}
+
+@theme "common"
+
+window {
+	fullscreen: true;
+}
+
+listview {
+	columns: 	1;
+}
+
+/* vim:syntax=css

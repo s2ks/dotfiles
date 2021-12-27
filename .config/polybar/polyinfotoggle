@@ -1,0 +1,10 @@
+#!/bin/sh
+
+COMMAND="polybar infobar"
+
+if  pkill --signal SIGTERM -f "$COMMAND" > /dev/null
+then
+	exit 0
+fi
+
+polybar infobar&
