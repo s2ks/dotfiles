@@ -4,3 +4,6 @@
 [submodule ".config/nvim"]
 	path = .config/nvim
 	url = /home/jilles/.config/nvim/
+[submodule "st"]
+	path = st
+	url = https://github.com/s2ks/my-st-pkg
