@@ -157,14 +157,18 @@ bindsym $mod+Shift+g gaps horizontal current set 0; gaps bottom current set 0; g
 #exec_always --no-startup-id "$HOME/.config/polybar/launch.sh"
 
 # launch unclutter, hides the cursor when the mouse is not used
-exec_always --no-startup-id "$HOME/.local/bin/launch_unclutter"
+exec_always --no-startup-id "~/.config/i3/bin/launch_unclutter"
+
+exec_always --no-startup-id "lxpolkit"
 
 # shortcut for frequently used programs
-set $mode_launcher Launch: [f] Firefox
+set $mode_launcher Launch: [f] Firefox - [t] Twitch - [m] Music
 bindsym $mod+o mode "$mode_launcher"
 
 mode "$mode_launcher" {
 	bindsym f exec firefox; mode "default"
+	bindsym t exec ~/.config/rofi/modes/twitch.sh; mode "default"
+	bindsym m exec "$TERM -e cmus; $TERM -e cava"; mode "default"
 
 	bindsym Escape mode "default"
 	bindsym Return mode "default"
@@ -192,27 +196,28 @@ mode "$mode_shutdown" {
 }
 
 # window composition manager
-exec_always --no-startup-id "picom -f --config ~/.config/picom/picom.conf"
+exec_always --no-startup-id "picom --experimental-backends --config ~/.config/picom/picom.conf"
 
 # night light
 exec --no-startup-id "redshift -c ~/.config/redshift.conf"
 
 # custom acpid events (volume, brightness, lid)
-exec --no-startup-id "~/.local/bin/acpi_events"
+exec --no-startup-id "~/.config/i3/bin/acpi_events"
 
 # Network Manager applet (tray)
 exec --no-startup-id "nm-applet"
 
 # bluetooth applet (tray)
-exec --no-startup-id "blueman-applet"
+exec_always --no-startup-id "blueman-applet"
 
 # usb manager applet (tray)
-exec --no-startup-id "udiskie --smart-tray --no-notify"
+exec --no-startup-id "udiskie --smart-tray --no-notify --terminal=$TERM"
 
 # use i3-lock to lock the session
-exec --no-startup-id "xss-lock -- ~/.local/bin/screenlock"
+exec --no-startup-id "xss-lock -- ~/.config/i3/bin/screenlock"
 
-bindsym $mod+Control+l exec "loginctl lock-session"
+bindsym $mod+Control+l 	exec "loginctl lock-session"
+bindsym $mod+l 		exec "loginctl lock-session"
 
 # control screen brightness via i3
 bindsym $mod+F6 exec --no-startup-id "xbacklight -steps 2 -inc 5"
@@ -224,8 +229,8 @@ bindsym $mod+F2 exec --no-startup-id "pamixer --decrease 5"
 bindsym $mod+F1 exec --no-startup-id "pamixer --toggle-mute"
 
 # boost
-bindsym $mod+Shift+F3 exec --no-startup-id "pamixer --allow-boost --i 5"
-bindsym $mod+Shift+F2 exec --no-startup-id "pamixer --allow-boost --d 5"
+bindsym $mod+Shift+F3 exec --no-startup-id "pamixer --set-limit 500 --allow-boost -i 5"
+bindsym $mod+Shift+F2 exec --no-startup-id "pamixer --set-limit 500 --allow-boost -d 5"
 
 # class			border	backgr.	text	indic.	child_border
 client.focused		#222222	#0088cc	#111111	#ff0000	#0088cc

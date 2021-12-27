@@ -1,0 +1,50 @@
+#!/bin/bash
+
+blanktime=60
+
+dpms_setting=`xset q | awk '{ if($1 == "Standby:") print $2, $4, $6; }'`
+
+B='#00000000'  # blank
+C='#ffffff22'  # clear ish
+D='#8888ffcc'  # default
+T='#aaaaeeee'  # text
+W='#882222aa'  # wrong
+V='#6666bbaa'  # verifying
+
+trap "xset dpms $dpms_setting" EXIT
+
+xset dpms $blanktime $blanktime $blanktime
+
+i3lock 					\
+	--composite 			\
+	--nofork 			\
+	--insidevercolor=$C   		\
+	--ringvercolor=$V     		\
+					\
+	--insidewrongcolor=$C 		\
+	--ringwrongcolor=$W   		\
+					\
+	--insidecolor=$B      		\
+	--ringcolor=$D        		\
+	--linecolor=$B        		\
+	--separatorcolor=$D   		\
+					\
+	--verifcolor=$T        		\
+	--wrongcolor=$T 		\
+	--timecolor=$T        		\
+	--datecolor=$T        		\
+	--layoutcolor=$T      		\
+	--keyhlcolor=$W       		\
+	--bshlcolor=$W        		\
+					\
+	--screen 1            		\
+	--pass-media-keys  		\
+	--pass-screen-keys 		\
+	--pass-power-keys 		\
+	--pass-volume-keys 		\
+	--blur=5              		\
+	--clock               		\
+	--indicator           		\
+	--timestr="%H:%M:%S"  		\
+	--datestr="%A %d-%m-%Y" 	\
+	--keylayout 0 -e -f
