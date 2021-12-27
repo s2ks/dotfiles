@@ -19,3 +19,6 @@
 [submodule ".config/rofi"]
 	path = .config/rofi
 	url = /home/jilles/.config/rofi/
+[submodule ".config/bash"]
+	path = .config/bash
+	url = /home/jilles/.config/bash/
