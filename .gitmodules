@@ -7,3 +7,6 @@
 [submodule "st"]
 	path = st
 	url = https://github.com/s2ks/my-st-pkg
+[submodule ".config/picom"]
+	path = .config/picom
+	url = /home/jilles/.config/picom/
