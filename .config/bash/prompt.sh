@@ -81,7 +81,10 @@ prompt_git() {
 	# 4 ms, whether it's in a git repo or not. I am not interested in the additional
 	# info rev-parse provides. Hence the usage of `git describe` to check for the
 	# existance of a git repo while also finding out the current branch name.
-	local branch="$(git describe --contains --all HEAD 2>/dev/null)"
+	#local branch="$(git describe --contains --all HEAD 2>/dev/null)"
+
+
+	local branch="$(git branch --show-current 2>/dev/null)"
 	if [[ -z $branch ]]; then
 		echo ""
 		return
