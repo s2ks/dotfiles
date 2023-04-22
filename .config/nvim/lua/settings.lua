@@ -44,10 +44,10 @@ opt.tabstop = 8
 opt.expandtab = false
 
 -- Use a tab width of 2 for xml-style files
-cmd [[autocmd FileType xml,html,xhtml setlocal shiftwidth=2 tabstop=2]]
+cmd [[autocmd FileType xml,html,xhtml,javascriptreact setlocal shiftwidth=2 tabstop=2]]
 
 
-cmd [[set nowrap]] 			-- no line wrapping
+--cmd [[set nowrap]] 			-- no line wrapping
 opt.encoding = 'utf-8'
 
 opt.clipboard = 'unnamedplus' 		-- use system clipboard by default
