@@ -1,5 +1,5 @@
 # common variables
-set $TERM 	st
+set $TERM 	kitty
 set $SHELL 	bash
 set $mod 	Mod4
 
@@ -174,6 +174,20 @@ mode "$mode_launcher" {
 	bindsym Return mode "default"
 }
 
+set $mode_screenshot Screenshot: [f] Full - [s] Focused - [c] Select
+bindsym $mod+c mode "$mode_screenshot"
+
+mode "$mode_screenshot" {
+	bindsym f exec scrot -e 'mv $f ~/Pictures/screenshot/'; mode "default"
+	bindsym s exec scrot -u -e 'mv $f ~/Pictures/screenshot/'; mode "default"
+
+	# FIXME For some reason scrot won't start, waiting for a bit seems to fix it
+	bindsym c exec sleep 0.1 && scrot -i -f -s -e 'mv $f ~/Pictures/screenshot/'; mode "default"
+
+	bindsym Escape mode "default"
+	bindsym Return mode "default"
+}
+
 # shutdown shortcuts
 set $mode_shutdown Select: [l]ogout [s]uspend [h]ibernate [p]oweroff [r]eboot
 bindsym $mod+Shift+x mode "$mode_shutdown"
@@ -196,16 +210,19 @@ mode "$mode_shutdown" {
 }
 
 # window composition manager
-exec_always --no-startup-id "picom --experimental-backends --config ~/.config/picom/picom.conf"
+exec_always --no-startup-id "picom --config ~/.config/picom/picom.conf"
 
 # night light
 exec --no-startup-id "redshift -c ~/.config/redshift.conf"
+
+# start discord tray
+#exec  --no-startup-id "discord --start-minimized"
 
 # custom acpid events (volume, brightness, lid)
 exec --no-startup-id "~/.config/i3/bin/acpi_events"
 
 # Network Manager applet (tray)
-exec --no-startup-id "nm-applet"
+exec_always --no-startup-id "nm-applet"
 
 # bluetooth applet (tray)
 exec_always --no-startup-id "blueman-applet"
