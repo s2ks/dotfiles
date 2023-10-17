@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#Ask /dev/urandom about important life decisions
+
+byte=$(dd if=/dev/urandom count=1 ibs=1 status=none | tr -d '\0')
+byte=$(printf "%d" "'$byte")
+
+response=(
+	"Yes" "No"
+)
+echo "${response[$(($byte % ${#response[@]}))]}"
+
