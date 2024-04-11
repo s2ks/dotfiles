@@ -1,10 +1,9 @@
 local opt = vim.opt
-local cmd = vim.cmd
 
-cmd [[filetype indent plugin on]] 	-- auto indent
-cmd [[syntax on]] 			-- enable syntax highlighting
+vim.cmd [[filetype indent plugin on]] 	-- auto indent
+vim.cmd [[syntax on]] 			-- enable syntax highlighting
 
-cmd [[set spell spelllang=nl,en]] 	-- spell checking
+vim.cmd [[set spell spelllang=nl,en]] 	-- spell checking
 
 --opt.nocompatible = true
 opt.hidden = true
@@ -20,13 +19,13 @@ opt.backspace = 'indent,eol,start' 	-- allow backspacing over indentation,
 -- end of line and start of insert
 
 opt.autoindent = true 			-- enable auto indent
-cmd [[set nostartofline]] 		-- disable some start of line movements
+vim.cmd [[set nostartofline]] 		-- disable some start of line movements
 
 opt.laststatus = 2 			-- always display status line
 opt.confirm = true 			-- raise dialog for unsaved changes
 
 opt.visualbell = true 			-- disable bell/beep
-cmd [[set t_vb=]]
+vim.cmd [[set t_vb=]]
 
 opt.mouse = 'a' 			-- allow mouse usage
 
@@ -36,15 +35,15 @@ opt.ruler = true 			-- display cursor position
 opt.number = true 			-- enable line numbering
 opt.relativenumber = true 		-- set line numbering to be relative to cursor
 
-opt.shiftwidth = 8 			-- indentation defaults
-opt.tabstop = 8
+opt.shiftwidth = 4 			-- indentation defaults
+opt.tabstop = 4
 -- expand tabs to spaces to fix alignment issues with the venn plugin.
 -- I don't care about the extra bytes used, it does introduce alignment
 -- issues with general usage
 opt.expandtab = false
 
 -- Use a tab width of 2 for xml-style files
-cmd [[autocmd FileType xml,html,xhtml,javascriptreact setlocal shiftwidth=2 tabstop=2]]
+vim.cmd [[autocmd FileType xml,html,xhtml,javascriptreact setlocal shiftwidth=2 tabstop=2]]
 
 
 --cmd [[set nowrap]] 			-- no line wrapping
@@ -56,17 +55,19 @@ opt.clipboard = 'unnamedplus' 		-- use system clipboard by default
 --  Theme  --
 -------------
 opt.background = 'dark'
-cmd [[colorscheme PaperColor]]
+vim.cmd [[colorscheme PaperColor]]
+vim.cmd [[highlight! link FloatBorder NONE]]
+vim.cmd [[highlight! link NormalFloat NONE]]
 
 -- I honestly don't remember what this was for
-cmd [[
+vim.cmd [[
 if empty(v:servername) && exists('*remote_startserver')
 	call remote_startserver('VIM')
 	endif
 ]]
 
 -- st keybinds
-cmd [[
+vim.cmd [[
 if &term =~ "st"
 	noremap <ESC>[1;2A 	<S-Up>
 	noremap <ESC>[1;2B 	<S-Down>
@@ -78,3 +79,6 @@ if &term =~ "st"
 	noremap [1;5B 	<C-Down>
 	endif
 ]]
+
+vim.cmd [[let g:NERDCompactSexyComs=1]]
+vim.cmd [[let g:NERDCustomDelimiters={'arduino': { 'left': '/*', 'right': '*/', 'leftAlt': '//' }}]]
