@@ -11,6 +11,20 @@ vim.cmd [[let g:airline#extensions#tabline#enabled = 1]]
 vim.cmd [[let g:airline#extensions#tabline#formatter = 'unique_tail']]
 
 return {
+	"ellisonleao/gruvbox.nvim",
+	--"NLKNguyen/papercolor-theme",
+	"sainnhe/sonokai",
+	"sainnhe/edge",
+
+	-- Configure LazyVim to load gruvbox
+	--{
+		--"LazyVim/LazyVim",
+		--opts = {
+			--colorscheme = "PaperColor",
+
+		--},
+	--},
+
 	'neovim/nvim-lspconfig',
 
 	'andweeb/presence.nvim',
@@ -131,7 +145,7 @@ return {
 		local configs = require("nvim-treesitter.configs")
 		configs.setup({
 			ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "elixir", "heex",
-				"javascript", "html", "haskell" },
+				"javascript", "html", "haskell", "c_sharp" },
 			sync_install = false,
 			highlight = { enable = true },
 			indent = { enable = true },
@@ -157,4 +171,6 @@ return {
 			})
 		end
 	},
+
+	"github/copilot.vim",
 }

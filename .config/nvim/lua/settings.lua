@@ -51,14 +51,6 @@ opt.encoding = 'utf-8'
 
 opt.clipboard = 'unnamedplus' 		-- use system clipboard by default
 
--------------
---  Theme  --
--------------
-opt.background = 'dark'
-vim.cmd [[colorscheme PaperColor]]
-vim.cmd [[highlight! link FloatBorder NONE]]
-vim.cmd [[highlight! link NormalFloat NONE]]
-
 -- I honestly don't remember what this was for
 vim.cmd [[
 if empty(v:servername) && exists('*remote_startserver')
@@ -82,3 +74,14 @@ if &term =~ "st"
 
 vim.cmd [[let g:NERDCompactSexyComs=1]]
 vim.cmd [[let g:NERDCustomDelimiters={'arduino': { 'left': '/*', 'right': '*/', 'leftAlt': '//' }}]]
+
+-------------
+--  Theme  --
+-------------
+--vim.cmd [[colorscheme gruvbox]]
+vim.cmd [[colorscheme edge]]
+--vim.cmd [[colorscheme sonokai]]
+--vim.cmd [[colorscheme PaperColor]]
+vim.cmd [[highlight! link floatborder none]]
+vim.cmd [[highlight! link normalfloat none]]
+opt.background = 'dark'
